@@ -113,6 +113,10 @@
   var history = [];
   var historyLimit = 30; // how many unique words before allowing a repeat
   
+  var maxFontSize = 200;
+  
+
+
   function getWord(){
     var index;
     do {
@@ -130,30 +134,27 @@
   }
   
   function fitWord (el){
-    el.quickfit({max: 200});
+    el.quickfit({max: maxFontSize});
     el.css('line-height', (el.height() * .9)  + 'px');
   }
   
-  fitWord(
-    $('.panelWord')
-      .fadeTo(1000, 1)
-      .delay(1000)
-      .animate({color: '#fff'}, function(){ fitWord($(this).text('touch to begin')); })
-      .animate({color: '#bbb'})
-  );
-  
-  $('.panelTop').delay(1000).fadeTo(2000, 1);
-  $('.panelBottom').delay(2000).fadeTo(2000, 1);
-  
+
+
   $(window).resize(function(){
     //$('.panelWord').quickfit({max: 200});
-    fitWord($('.panelWord'));
+    var pw = $('.panelWord');
+    maxFontSize = Math.floor(pw.height() * .66);
+    var lineHeight = Math.floor(maxFontSize * 1.75);
+    
+    console.log('mfs = "' + maxFontSize + '", lh = "' + lineHeight + '"');
+    
+    pw.css('line-height', lineHeight + 'px');
+    fitWord(pw);
   });
   
   $('body').on('touchstart', '.panelWord', function(e) {
     $(this).addClass('touching');
   });
-
 
   $('body').on('click', '.panelWord', function(){
     if ($(this).hasClass('touching')){
@@ -165,10 +166,24 @@
     }
   });
 
-
   $('body').on('touchend', '.panelWord', function(e){
     $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
   });
+  
+
+  
+  $(window).triggerHandler('resize');
+
+  $('.panelWord')
+    .fadeTo(1000, 1)
+    .delay(1000)
+    .animate({color: '#fff'}, function(){ fitWord($(this).text('touch to begin')); })
+    .animate({color: '#bbb'});
+  
+  $('.panelTop').delay(1000).fadeTo(2000, 1);
+  $('.panelBottom').delay(2000).fadeTo(2000, 1);
+  
+  
   
 });
 
