@@ -1,4 +1,3 @@
-
   (function($) {
     var Quickfit, QuickfitHelper, defaults, pluginName;
     pluginName = 'quickfit';
