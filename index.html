@@ -150,7 +150,23 @@
     fitWord($('.panelWord'));
   });
   
-  $('body').on('click touchend', '.panelWord', function(e){
+  $('body').on('touchstart', '.panelWord', function(e) {
+    $(this).addClass('touching');
+  });
+
+
+  $('body').on('click', '.panelWord', function(){
+    if ($(this).hasClass('touching')){
+      e.preventDefault();
+      return false;
+    }
+    else {
+      $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
+    }
+  });
+
+
+  $('body').on('touchend', '.panelWord', function(e){
     $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
   });
   
