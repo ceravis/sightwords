@@ -11,7 +11,7 @@
   
   <style>
     body {
-      background-color: #fff;
+      background-color: #eee;
       font-family: 'Average Sans', sans-serif;
       font-size: 14px;
       overflow: hidden;
@@ -25,14 +25,21 @@
       margin: auto;
       text-align: center;
     }
+    .panelShadow {
+      -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+      -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    }
     .panelTop {
+      opacity: 0;
+      
       bottom: 80%;
       
       width: 50%;
       min-width: 200px;
       height: 20%;
       
-      background-color: #ddd;
+      background-color: #ccc;
       border-width: 0 2px 2px;
       border-style: solid;
       border-color: #aaa;
@@ -40,13 +47,15 @@
       color: #999;
     }
     .panelBottom {
+      opacity: 0;
+      
       top: 80%;
       
       width: 50%;
       min-width: 200px;
       height: 20%;
       
-      background-color: #ddd;
+      background-color: #ccc;
       border-width: 2px 2px 0;
       border-style: solid;
       border-color: #aaa;
@@ -54,6 +63,8 @@
       color: #999;
     }
     .panelWord {
+      opacity: 0;
+      
       top: 25%;
       bottom: 25%;
       
@@ -63,8 +74,9 @@
       line-height: 350px;
       font-size: 200px;
       letter-spacing: -.05em;
+      white-space: nowrap;
       
-      background-color: #eee;
+      background-color: #fff;
       color: #bbb;
       border: 2px solid #bbb;
       border-radius: 10px;
@@ -78,11 +90,11 @@
 
 <body>
 
-<div class="panel panelTop">test</div>
+<div class="panel panelTop panelShadow"></div>
 
-<div class="panel panelWord">sightwords</div>
+<div class="panel panelWord panelShadow">sightwords</div><!--antidisestablishmentarianism-->
 
-<div class="panel panelBottom">test</div>
+<div class="panel panelBottom panelShadow"></div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script src="jquery.color-2.1.1.min.js" type="text/javascript"></script>
@@ -95,12 +107,43 @@
     loadFirebugConsole();
   }
 
+  // Dolch word list: http://en.wikipedia.org/wiki/Dolch_word_list
+  var words = "apple,baby,back,ball,bear,bed,bell,bird,birthday,boat,box,boy,bread,brother,cake,car,cat,chair,chicken,children,Christmas,coat,corn,cow,day,dog,doll,door,duck,egg,eye,farm,farmer,father,feet,fire,fish,floor,flower,game,garden,girl,good-bye,grass,ground,hand,head,hill,home,horse,house,kitty,leg,letter,man,men,milk,money,morning,mother,name,nest,night,paper,party,picture,pig,rabbit,rain,ring,robin,Santa Claus,school,seed,sheep,shoe,sister,snow,song,squirrel,stick,street,sun,table,thing,time,top,toy,tree,watch,water,way,wind,window,wood".split(',');
+  
+  var history = [];
+  var historyLimit = 30; // how many unique words before allowing a repeat
+  
+  function getWord(){
+    var index;
+    do {
+      index = Math.floor(Math.random() * (words.length + 1));
+    } while ($.inArray(index, history) != -1);
+    
+    // remove oldest index from history
+    if (history.length >= historyLimit){
+      history.shift(1);
+    }
+    
+    history.push(index);
+    
+    return words[index];
+  }
+  
   function fitWord (el){
     el.quickfit({max: 200});
     el.css('line-height', (el.height() * .9)  + 'px');
   }
   
-  fitWord($('.panelWord'));
+  fitWord(
+    $('.panelWord')
+      .fadeTo(1000, 1)
+      .delay(1000)
+      .animate({color: '#fff'}, function(){ fitWord($(this).text('touch to begin')); })
+      .animate({color: '#bbb'})
+  );
+  
+  $('.panelTop').delay(1000).fadeTo(2000, 1);
+  $('.panelBottom').delay(2000).fadeTo(2000, 1);
   
   $(window).resize(function(){
     //$('.panelWord').quickfit({max: 200});
@@ -108,7 +151,7 @@
   });
   
   $('body').on('click touchend', '.panelWord', function(e){
-    $(this).clearQueue().animate({color: '#000'}).delay(1000).animate({color: '#bbb'});
+    $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
   });
   
 });
