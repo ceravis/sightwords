@@ -7,7 +7,8 @@
   
   <title>sightwords</title>
 
-  <link href="http://fonts.googleapis.com/css?family=Average+Sans" rel="stylesheet" type="text/css">
+  <!--<link href="http://fonts.googleapis.com/css?family=Average+Sans|Sorts+Mill+Goudy:400,400italic|Libre+Baskerville:400,700,400italic|EB+Garamond" rel="stylesheet" type="text/css">-->
+  <link href="http://fonts.googleapis.com/css?family=Average+Sans|EB+Garamond" rel="stylesheet" type="text/css">
   
   <style>
     body {
@@ -16,19 +17,39 @@
       font-size: 14px;
       overflow: hidden;
     }
+    .background {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+    }
     .panel {
+      /* these 6 properties center panel in parent vertically and horizontally */
+      /* change TBLR values to offset from those edges */
       position: absolute;
       top: 0;
       bottom: 0;
       left: 0;
       right: 0;
       margin: auto;
+      
       text-align: center;
     }
     .panelShadow {
       -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
       -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
       box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    }
+    .panelLabel {
+      font-size: 30px;
+      line-height: 50px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 auto;
+      position: absolute;
+      width: 100%;
     }
     .panelTop {
       opacity: 0;
@@ -37,14 +58,17 @@
       
       width: 50%;
       min-width: 200px;
-      height: 20%;
+      /* height: 20%; */
       
-      background-color: #ccc;
+      background-color: #ed9;
       border-width: 0 2px 2px;
       border-style: solid;
-      border-color: #aaa;
+      border-color: #cb7;
       border-radius: 0 0 5px 5px;
-      color: #999;
+      color: #cb7;
+    }
+    .panelTop .panelLabel {
+      bottom: 0;
     }
     .panelBottom {
       opacity: 0;
@@ -53,14 +77,17 @@
       
       width: 50%;
       min-width: 200px;
-      height: 20%;
+      /* height: 20%; */
       
-      background-color: #ccc;
+      background-color: #9ac;
       border-width: 2px 2px 0;
       border-style: solid;
-      border-color: #aaa;
+      border-color: #78a;
       border-radius: 5px 5px 0 0;
-      color: #999;
+      color: #78a;
+    }
+    .panelBottom .panelLabel {
+      top: 0;
     }
     .panelWord {
       opacity: 0;
@@ -82,23 +109,44 @@
       border-radius: 10px;
       
       cursor: pointer;
-      
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .capitalize {
+      text-transform: capitalize;
+    }
+    .uppercase {
+      text-transform: uppercase;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    [unselectable="on"], a {
+      /* prevent text selection in most browsers except IE 6-9 */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;      
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* prevent android and iphone browsers highlighting elements on touch */
     }
   </style>
 </head>
 
-<body>
+<body class="loading">
 
-<div class="panel panelTop panelShadow"></div>
+<div class="background"></div>
 
-<div class="panel panelWord panelShadow">sightwords</div><!--antidisestablishmentarianism-->
+<div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel">help</div></div>
 
-<div class="panel panelBottom panelShadow"></div>
+<div class="panel panelWord panelShadow" unselectable="on" /*prevent text selection in IE 6-9*/>sightwords</div><!--antidisestablishmentarianism-->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<div class="panel panelBottom panelShadow" unselectable="on"><div class="panelLabel">settings</div></div>
+
+<!-- firefox bug animating bottom edge of top panel introduced in jQuery 1.8 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 <script src="jquery.color-2.1.1.min.js" type="text/javascript"></script>
 <script src="jquery.quickfit.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 (typeof($) != 'undefined') && $(document).ready(function(){
@@ -107,21 +155,60 @@
     loadFirebugConsole();
   }
 
+  
+  
   // Dolch word list: http://en.wikipedia.org/wiki/Dolch_word_list
-  var words = "apple,baby,back,ball,bear,bed,bell,bird,birthday,boat,box,boy,bread,brother,cake,car,cat,chair,chicken,children,Christmas,coat,corn,cow,day,dog,doll,door,duck,egg,eye,farm,farmer,father,feet,fire,fish,floor,flower,game,garden,girl,good-bye,grass,ground,hand,head,hill,home,horse,house,kitty,leg,letter,man,men,milk,money,morning,mother,name,nest,night,paper,party,picture,pig,rabbit,rain,ring,robin,Santa Claus,school,seed,sheep,shoe,sister,snow,song,squirrel,stick,street,sun,table,thing,time,top,toy,tree,watch,water,way,wind,window,wood".split(',');
+  var lists = [
+    {
+      name: 'Dorch',
+      words: "apple,baby,back,ball,bear,bed,bell,bird,birthday,boat,box,boy,bread,brother,cake,car,cat,chair,chicken,children,Christmas,coat,corn,cow,day,dog,doll,door,duck,egg,eye,farm,farmer,father,feet,fire,fish,floor,flower,game,garden,girl,good-bye,grass,ground,hand,head,hill,home,horse,house,kitty,leg,letter,man,men,milk,money,morning,mother,name,nest,night,paper,party,picture,pig,rabbit,rain,ring,robin,Santa Claus,school,seed,sheep,shoe,sister,snow,song,squirrel,stick,street,sun,table,thing,time,top,toy,tree,watch,water,way,wind,window,wood".split(',')
+    }
+  ];
+  var listIndex = 0;
   
   var history = [];
   var historyLimit = 30; // how many unique words before allowing a repeat
   
-  var maxFontSize = 200;
+  var maxFontSize = 200; // starting value, changed on window resize
+  
+  // collection of fonts to use and associated values for line-height calculations
+  var fonts = [
+    {
+      'font-family': 'Average Sans',
+      lineHeightFactor: .875
+    },
+/*    
+    {
+      'font-family': 'Sorts Mill Goudy',
+      lineHeightFactor: 1
+    },
+    {
+      'font-family': 'Libre Baskerville',
+      lineHeightFactor: 1
+    },
+*/
+    {
+      'font-family': 'EB Garamond',
+      lineHeightFactor: .9
+    }
+  ];
+  var fontIndex = 1; // which font from above array to use
+  
+  var edgePanelHeightPercentage = 7.5; /* how much of screen height the edge panels should shrink to, can be overriden by min height below */
+  var edgePanelMinHeightPixels = 40; /* should be roughly same as line height of panel label */
   
 
 
+  // randomly get word from word list
   function getWord(){
     var index;
+    var i = 0;
     do {
-      index = Math.floor(Math.random() * (words.length + 1));
+      index = Math.floor(Math.random() * (lists[listIndex].words.length + 1));
+      i++;
     } while ($.inArray(index, history) != -1);
+    
+    //console.log(i + ': ' + index + ' (' + history.join(',') + ')');
     
     // remove oldest index from history
     if (history.length >= historyLimit){
@@ -130,58 +217,91 @@
     
     history.push(index);
     
-    return words[index];
+    return lists[listIndex].words[index];
   }
   
+  // adjust font size to fit within container
   function fitWord (el){
     el.quickfit({max: maxFontSize});
-    el.css('line-height', (el.height() * .9)  + 'px');
+  }
+  
+  // word switch procedure
+  function nextWord(el){
+    el
+      .clearQueue()
+      .animate({color: '#fff'}, 200,
+        function(){ 
+          fitWord(el.text(getWord())); 
+        })
+      .animate({color: '#000'}, 200);
+  }
+  
+  // determine 
+  function getPanelDistancePercentage(){
+    var windowHeight = $(document).height();
+    var panelMinHeight = Math.max(windowHeight * edgePanelHeightPercentage / 100, edgePanelMinHeightPixels);
+    return 100 - (panelMinHeight / windowHeight * 100);
   }
   
 
-
+  
+  // on window resize, .panelWord is resized (according to css rules)
+  // adjust font size and line-height accordingly
   $(window).resize(function(){
-    //$('.panelWord').quickfit({max: 200});
+    // resize text in word panel
     var pw = $('.panelWord');
     maxFontSize = Math.floor(pw.height() * .66);
-    var lineHeight = Math.floor(maxFontSize * 1.75);
-    
-    console.log('mfs = "' + maxFontSize + '", lh = "' + lineHeight + '"');
-    
+    var lineHeight = Math.floor(pw.height() * fonts[fontIndex].lineHeightFactor);
     pw.css('line-height', lineHeight + 'px');
     fitWord(pw);
+    
+    // resize shrunken edge panels
+    if (!$('body').hasClass('loading')){
+      $('.panelTop').animate({'bottom': getPanelDistancePercentage() + '%'});
+      $('.panelBottom').animate({'top': getPanelDistancePercentage() + '%'});
+    }
   });
   
-  $('body').on('touchstart', '.panelWord', function(e) {
+  // flag this as touch-enabled device, to prevent registering clicks on elements where touch events will be processed
+  // otherwise clicks will be duplicates
+  $('body').on('touchstart', '.panelWord, .background', function(e) {
     $(this).addClass('touching');
   });
 
-  $('body').on('click', '.panelWord', function(){
+  // if a touch event has already occurred, abort click handler
+  $('body').on('click', '.panelWord, .background', function(){
     if ($(this).hasClass('touching')){
       e.preventDefault();
       return false;
     }
     else {
-      $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
+      nextWord($('.panelWord'));
     }
   });
 
-  $('body').on('touchend', '.panelWord', function(e){
-    $(this).clearQueue().animate({color: '#fff'}, function(){ fitWord($(this).text(getWord())); }).animate({color: '#000'});
+  // process touch events if available
+  $('body').on('touchend', '.panelWord, .background', function(e){
+    setTimeout(function(){ // perform after a timeout to allow slower (mobile) devices to process *after* click event (which is slightly delayed)
+      $(this).removeClass('touching'); // remove after each touch completes, in case this device support both mouse and touch and the user alternates between both
+    }, 500);
+    nextWord($('.panelWord'));
   });
   
 
   
+  // trigger resize handler once on page load
   $(window).triggerHandler('resize');
 
+  // do initial animation
   $('.panelWord')
+    .css('font-family', fonts[fontIndex]['font-family'])
     .fadeTo(1000, 1)
     .delay(1000)
     .animate({color: '#fff'}, function(){ fitWord($(this).text('touch to begin')); })
     .animate({color: '#bbb'});
   
-  $('.panelTop').delay(1000).fadeTo(2000, 1);
-  $('.panelBottom').delay(2000).fadeTo(2000, 1);
+  $('.panelTop').delay(750).fadeTo(500, 1).delay(500).animate({'bottom': getPanelDistancePercentage() + '%'}, function(){ $('body').removeClass('loading'); });
+  $('.panelBottom').delay(1000).fadeTo(500, 1).delay(500).animate({'top': getPanelDistancePercentage() + '%'});
   
   
   
