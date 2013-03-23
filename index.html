@@ -17,6 +17,12 @@
       font-size: 14px;
       overflow: hidden;
     }
+    .fontFamily-AverageSans {
+      font-family: 'Average Sans', sans-serif;
+    }
+    .fontFamily-EBGaramond {
+      font-family: 'EB Garamond', serif;
+    }
     .background {
       top: 0;
       bottom: 0;
@@ -66,6 +72,8 @@
       border-color: #cb7;
       border-radius: 0 0 5px 5px;
       color: #cb7;
+      
+      overflow: hidden;
     }
     .panelTop .panelLabel {
       bottom: 0;
@@ -85,6 +93,8 @@
       border-color: #78a;
       border-radius: 5px 5px 0 0;
       color: #78a;
+      
+      overflow: hidden;
     }
     .panelBottom .panelLabel {
       top: 0;
@@ -110,13 +120,14 @@
       
       cursor: pointer;
     }
-    .capitalize {
+    .fontStyle-capitalize {
       text-transform: capitalize;
     }
-    .uppercase {
+    .fontStyle-uppercase {
       text-transform: uppercase;
     }
-    .bold {
+    .bold,
+    .fontStyle-bold {
       font-weight: bold;
     }
     [unselectable="on"], a {
@@ -138,13 +149,12 @@
 
 <div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel">help</div></div>
 
-<div class="panel panelWord panelShadow" unselectable="on" /*prevent text selection in IE 6-9*/>sightwords</div><!--antidisestablishmentarianism-->
+<div class="panel panelWord panelShadow" unselectable="on">sightwords</div>
 
 <div class="panel panelBottom panelShadow" unselectable="on"><div class="panelLabel">settings</div></div>
 
 <!-- firefox bug animating bottom edge of top panel introduced in jQuery 1.8 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-<script src="underscore-1.4.4.min.js" type="text/javascript"></script>
 <script src="jquery.color-2.1.1.min.js" type="text/javascript"></script>
 <script src="jquery.quickfit.js" type="text/javascript"></script>
 
@@ -155,6 +165,7 @@
   if (window.loadFirebugConsole){
     loadFirebugConsole();
   }
+
 
   
   
@@ -186,27 +197,28 @@
     },
     {
       name: 'Advanced',
-      words: "alabaster,conundrum,beautiful,ordinary,calculator,twilight,sunrise,mirror,fountain,ocean,dolphin,thunderstorm,lightning,violin,piano,music".split(',')
+      words: "alabaster,conundrum,beautiful,ordinary,calculator,computer,twilight,sunrise,mirror,fountain,ocean,dolphin,thunderstorm,lightning,violin,piano,music,castle,keyboard,blanket,toothbrush,elbow,shoulder,hexagon,octagon,pizza,hazard,caution,watermelon,cantaloupe,broccoli,cucumber,spaghetti,macaroni,yellow,orange,purple,violet,midnight,ultramarine,parallelogram,ladybug,earthworm,eagle,zebra,Jupiter,Mercury,constellation,basketball,jumprope,breakdance".split(',')
     }
   ];
   
   // combine all lists
   lists.unshift({
     name: 'all',
-    words: [].concat.apply([], _.pluck(lists, 'words'))
+    words: [].concat.apply([], $.map(lists, function(list){ return list.words; }))
   });
   
   var listIndex = 7;
   
   var history = [];
-  var historyLimit = 30; // how many unique words before allowing a repeat
+  var historyLimit = 9999; // how many unique words before allowing a repeat
+  var historyPosition = 0;
   
   var maxFontSize = 200; // starting value, changed on window resize
   
   // collection of fonts to use and associated values for line-height calculations
   var fonts = [
     {
-      'font-family': 'Average Sans',
+      fontClass: 'fontFamily-AverageSans',
       lineHeightFactor: .875
     },
 /*    
@@ -220,7 +232,7 @@
     },
 */
     {
-      'font-family': 'EB Garamond',
+      fontClass: 'fontFamily-EBGaramond',
       lineHeightFactor: .9
     }
   ];
@@ -228,11 +240,20 @@
   
   var edgePanelHeightPercentage = 7.5; /* how much of screen height the edge panels should shrink to, can be overriden by min height below */
   var edgePanelMinHeightPixels = 40; /* should be roughly same as line height of panel label */
+
+  var sizeWatch = [];
+  
+  
   
 
 
   // randomly get word from word list
   function getWord(){
+    if (historyPosition > 0){
+      //console.log(historyPosition + ' (' + history.join(',') + ')');
+      return lists[listIndex].words[history[--historyPosition]];
+    }
+    
     var index;
     var i = 0; // how many times are we looping before finding a number not in the history?
     do {
@@ -254,18 +275,37 @@
   
   // adjust font size to fit within container
   function fitWord (el){
+    // resize text in word panel
+    maxFontSize = Math.floor(el.height() * .66);
+    var lineHeight = Math.floor(el.height() * fonts[fontIndex].lineHeightFactor);
+    el.css('line-height', lineHeight + 'px');
     el.quickfit({max: maxFontSize});
   }
   
   // word switch procedure
-  function nextWord(el){
-    el
+  function nextWord(){
+    $('.panelWord')
       .clearQueue()
       .animate({color: '#fff'}, 200,
-        function(){ 
-          fitWord(el.text(getWord())); 
+        function(){
+          fitWord($(this).text(getWord()));
         })
       .animate({color: '#000'}, 200);
+      
+    if (historyPosition > 0){
+      $('.panelWord')
+        .animate({'border-color': '#d88', 'border-left-width': '10px'});
+    }
+    else {
+      $('.panelWord')
+        .animate({'border-color': '#bbb', 'border-left-width': '2px'});
+    }
+  }
+  
+  // go back in history
+  function previousWord(){
+    historyPosition = Math.min(historyPosition + 2, history.length);
+    nextWord();
   }
   
   // determine 
@@ -275,17 +315,112 @@
     return 100 - (panelMinHeight / windowHeight * 100);
   }
   
+  // touch+click support for interactive elements (buttons, links, etc.)
+  function touchClick(selector, action){
+    // flag this as touch-enabled device, to prevent registering clicks on elements where touch events will be processed
+    // otherwise clicks will be duplicates
+    $('body').on('touchstart', selector, function(e) {
+      $(this).addClass('touching');
+    });
 
+    // if a touch event has already occurred, abort click handler
+    $('body').on('click', selector, function(){
+      if ($(this).hasClass('touching')){
+        e.preventDefault();
+        return false;
+      }
+      else {
+        action();
+      }
+    });
+
+    // process touch events if available
+    $('body').on('touchend', selector, function(e){
+      setTimeout(function(){ // perform after a timeout to allow slower (mobile) devices to process *after* click event (which is slightly delayed)
+        $(this).removeClass('touching'); // remove after each touch completes, in case this device support both mouse and touch and the user alternates between both
+      }, 500);
+      action();
+    });
+  }
+  
+  function onResize(el, action, interval){
+    interval = interval || 25;
+  
+    el.attr('sizeWatchId', sizeWatch.length);
+    
+    var watch = {
+      el: el,
+      width: el.width(),
+      height: el.height(),
+      action: action,
+      timeoutId: setInterval(function(){
+        //console.log(el.attr('sizeWatchId'));
+        var id = el.attr('sizeWatchId');
+        if (sizeWatch[id]){
+          var newWidth = el.width(), newHeight = el.height();
+          
+          if (newWidth != sizeWatch[id].width || newHeight != sizeWatch[id].height){
+            sizeWatch[id].width = newWidth;
+            sizeWatch[id].height = newHeight;
+            action();
+          }
+        }
+      }, interval)
+    };
+    
+    sizeWatch.push(watch);
+  }
+  
+  function clearResize(el){
+    var id = el.attr('sizeWatchId');
+    
+    if (sizeWatch[id]){
+      clearInterval(sizeWatch[id].timeoutId);
+    }
+  }
+  
+  function panelTopExpand(){
+    $('.panelTop').clearQueue().animate({bottom: '10%'}, function(){ $('.panelTop').addClass('expanded'); });
+    
+    $('.panelWord').clearQueue().animate({
+      top: '80%',
+      bottom: 0,
+      height: ($(document).height() * .2) + 'px'
+    });
+    
+    $('.panelBottom').clearQueue().animate({top: '100%'});
+  }
+  
+  function panelRestore(){
+    $('.panelWord').clearQueue().animate({
+      top: '25%',
+      bottom: '25%',
+      height: '400px'
+    }, 200);
+    
+    $('.panelTop').clearQueue().animate({'bottom': getPanelDistancePercentage() + '%'}, 200, function(){ $('.panelTop').removeClass('expanded'); });
+    
+    $('.panelBottom').clearQueue().animate({'top': getPanelDistancePercentage() + '%'}, 200, function(){ $('.panelBottom').removeClass('expanded'); });
+  }
+  
+  
+  touchClick('.panelWord, .background', function(){
+    nextWord();
+  });
+  
+  touchClick('.panelTop', function(){
+    if (!$('.panelTop').hasClass('expanded')){ // top panel not currently expanded
+      panelTopExpand();
+    }
+    else { // top panel already expanded, so hide it and restore normal view
+      panelRestore();
+    }
+  });
   
   // on window resize, .panelWord is resized (according to css rules)
   // adjust font size and line-height accordingly
   $(window).resize(function(){
-    // resize text in word panel
-    var pw = $('.panelWord');
-    maxFontSize = Math.floor(pw.height() * .66);
-    var lineHeight = Math.floor(pw.height() * fonts[fontIndex].lineHeightFactor);
-    pw.css('line-height', lineHeight + 'px');
-    fitWord(pw);
+    fitWord($('.panelWord'));
     
     // resize shrunken edge panels
     if (!$('body').hasClass('loading')){
@@ -294,47 +429,90 @@
     }
   });
   
-  // flag this as touch-enabled device, to prevent registering clicks on elements where touch events will be processed
-  // otherwise clicks will be duplicates
-  $('body').on('touchstart', '.panelWord, .background', function(e) {
-    $(this).addClass('touching');
+  // no div resize support in jQuery,
+  // and ba-resize plugin doesn't seem to work...
+  //$('.panelWord').resize(function(){
+    //console.log('panelWord resize');
+    //fitWord($(this));
+  //});
+  
+  onResize($('.panelWord'), function(){
+    fitWord($('.panelWord'));
   });
-
-  // if a touch event has already occurred, abort click handler
-  $('body').on('click', '.panelWord, .background', function(){
-    if ($(this).hasClass('touching')){
-      e.preventDefault();
-      return false;
+  
+  
+  
+  // keyboard keyCodes
+  var keys = {
+    'space': 32,
+    'left': 37,
+    'right': 39,
+    'up': 38,
+    'down': 40,
+    'esc': 27
+  };
+  
+  // process keyboard input
+  $(document).keydown(function(e){
+    //console.log('keydown ' + e.keyCode);
+    switch (e.keyCode) {
+      case keys.space:
+      case keys.right:
+        nextWord();
+        //e.preventDefault();
+        //return false;
+        break;
+        
+      case keys.left:
+        previousWord();
+        break;
+        
+      case keys.up:
+        if (!$('.panelTop').hasClass('expanded')){
+          panelTopExpand();
+        }
+        else {
+          panelRestore();
+        }
+        break;
+        
+      case keys.down:
+        if ($('.panelTop').hasClass('expanded')){
+          panelRestore();
+        }
+        break;
     }
-    else {
-      nextWord($('.panelWord'));
-    }
-  });
-
-  // process touch events if available
-  $('body').on('touchend', '.panelWord, .background', function(e){
-    setTimeout(function(){ // perform after a timeout to allow slower (mobile) devices to process *after* click event (which is slightly delayed)
-      $(this).removeClass('touching'); // remove after each touch completes, in case this device support both mouse and touch and the user alternates between both
-    }, 500);
-    nextWord($('.panelWord'));
   });
   
 
+  
+  
   
   // trigger resize handler once on page load
   $(window).triggerHandler('resize');
 
+  // make sure panelWord and quickfit helper element use same font
+  $('.panelWord, #meassure') 
+    .removeClass(function(index, css){
+      return (css.match (/\bfontFamily-\S+/g) || []).join(' ')
+    })
+    .addClass(fonts[fontIndex].fontClass);
+    
   // do initial animation
   $('.panelWord')
-    .css('font-family', fonts[fontIndex]['font-family'])
+    .removeClass(function(index, css){ return false; })
+    .addClass(fonts[fontIndex].fontClass)
     .fadeTo(1000, 1)
     .delay(1000)
-    .animate({color: '#fff'}, function(){ fitWord($(this).text('touch to begin')); })
+    .animate({color: '#fff'},
+      function(){
+        fitWord($(this).text('touch to begin'));
+      })
     .animate({color: '#bbb'});
   
-  $('.panelTop').delay(750).fadeTo(500, 1).delay(500).animate({'bottom': getPanelDistancePercentage() + '%'}, function(){ $('body').removeClass('loading'); });
-  $('.panelBottom').delay(1000).fadeTo(500, 1).delay(500).animate({'top': getPanelDistancePercentage() + '%'});
-  
+  $('.panelTop').delay(750).fadeTo(200, 1).delay(500).animate({'bottom': getPanelDistancePercentage() + '%'}, function(){ $('body').removeClass('loading'); });
+  $('.panelBottom').delay(1000).fadeTo(200, 1).delay(500).animate({'top': getPanelDistancePercentage() + '%'});
+
   
   
 });

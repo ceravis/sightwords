@@ -50,6 +50,7 @@
           text += sample_letter;
         }
         this.item.html(text);
+        // console.log('text = "' + text + '" (' + this.item.width() + ')');
         current_meassure = this.item.width() / this.options.sample_number_of_letters / this.options.sample_font_size;
         this.meassures[letter] = current_meassure;
         return current_meassure;
