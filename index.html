@@ -183,6 +183,10 @@
     {
       name: 'Dolch 3rd grade',
       words: "about,better,bring,carry,clean,cut,done,draw,drink,eight,fall,far,full,got,grow,hold,hot,hurt,if,keep,kind,laugh,light,long,much,myself,never,only,own,pick,seven,shall,show,six,small,start,ten,today,together,try,warm".split(',')
+    },
+    {
+      name: 'Advanced',
+      words: "alabaster,conundrum,beautiful,ordinary,calculator,twilight,sunrise,mirror,fountain,ocean,dolphin,thunderstorm,lightning,violin,piano,music".split(',')
     }
   ];
   
@@ -192,7 +196,7 @@
     words: [].concat.apply([], _.pluck(lists, 'words'))
   });
   
-  var listIndex = 0;
+  var listIndex = 7;
   
   var history = [];
   var historyLimit = 30; // how many unique words before allowing a repeat
@@ -239,7 +243,7 @@
     //console.log(i + ': ' + index + ' (' + history.join(',') + ')');
     
     // remove oldest index from history
-    if (history.length >= historyLimit){
+    if (history.length >= Math.min(lists[listIndex].words.length - 1, historyLimit)){
       history.pop(1);
     }
     
