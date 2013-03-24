@@ -197,7 +197,11 @@
     },
     {
       name: 'Advanced',
-      words: "alabaster,conundrum,beautiful,ordinary,calculator,computer,twilight,sunrise,mirror,fountain,ocean,dolphin,thunderstorm,lightning,violin,piano,music,castle,keyboard,blanket,toothbrush,elbow,shoulder,hexagon,octagon,pizza,hazard,caution,watermelon,cantaloupe,broccoli,cucumber,spaghetti,macaroni,yellow,orange,purple,violet,midnight,ultramarine,parallelogram,ladybug,earthworm,eagle,zebra,Jupiter,Mercury,constellation,basketball,jumprope,breakdance".split(',')
+      words: "alabaster,asteroid,basketball,beautiful,blanket,blizzard,breakdance,broccoli,calculator,cantaloupe,castle,caution,computer,constellation,conundrum,cucumber,dolphin,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,hazard,hexagon,hurricane,jumprope,Jupiter,keyboard,knight,ladybug,lightning,macaroni,Mercury,midnight,mirror,mountain,music,ocean,octagon,orange,ordinary,parallelogram,piano,pizza,purple,shoulder,solar system,spaghetti,squirrel,sunrise,thunderstorm,toothbrush,twilight,ultramarine,violet,violin,volcano,watermelon,yellow,zebra".split(',')
+    },
+    {
+      name: 'Days, Months, Numbers',
+      words: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,January,February,March,April,May,June,July,August,September,October,November,December,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty".split(',')
     }
   ];
   
@@ -207,10 +211,15 @@
     words: [].concat.apply([], $.map(lists, function(list){ return list.words; }))
   });
   
+  // echo sorted list to console
+  //console.log(Array.prototype.sort.apply(lists[7].words, [function (a, b) {
+    //return a.toLowerCase().localeCompare(b.toLowerCase());
+  //}]).join(','));
+  
   var listIndex = 7;
   
   var history = [];
-  var historyLimit = 9999; // how many unique words before allowing a repeat
+  var historyLimit = Math.floor(lists[listIndex].words.length / 2); // how many unique words before allowing a repeat; if this is >= list length, sequence will be the same when looping
   var historyPosition = 0;
   
   var maxFontSize = 200; // starting value, changed on window resize
@@ -384,7 +393,7 @@
     
     $('.panelWord').clearQueue().animate({
       top: '80%',
-      bottom: 0,
+      bottom: '-15px',
       height: ($(document).height() * .2) + 'px'
     });
     
