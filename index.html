@@ -216,9 +216,9 @@
 
 <div class="panel panelWord panelShadow" unselectable="on"><div class="panelLabel panelWordDetails"></div><div class="word">sightwords</div></div>
 
-<div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel">help</div></div>
+<div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel"><!-- word details --></div></div>
 
-<div class="panel panelBottom panelShadow" unselectable="on"><div class="panelLabel">settings</div></div>
+<div class="panel panelBottom panelShadow" unselectable="on"><div class="panelLabel"><!-- settings --></div></div>
 
 <!-- firefox bug animating bottom edge of top panel introduced in jQuery 1.8 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
@@ -234,7 +234,7 @@
     loadFirebugConsole();
   }
 
-
+  $.fx.speeds._default = 200;
   
   
   
@@ -265,7 +265,7 @@
     },
     {
       name: 'Advanced',
-      words: "alabaster,alligator,asteroid,basketball,beautiful,blanket,blizzard,breakdance,broccoli,cabinet,calculator,cantaloupe,castle,caution,computer,constellation,conundrum,crocodile,cucumber,dolphin,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,hazard,hexagon,hurricane,jumprope,Jupiter,kangaroo,keyboard,knight,ladybug,lightning,macaroni,Mercury,midnight,mirror,mountain,music,ocean,octagon,octopus,orange,ordinary,parallelogram,piano,pizza,purple,shoulder,solar system,spaghetti,squirrel,sunrise,thunderstorm,toothbrush,twilight,ultramarine,vacuum,violet,violin,volcano,watermelon,yellow,zebra".split(',')
+      words: "alabaster,alligator,animal,asteroid,aunt,backhoe,bandage,basketball,beautiful,bicycle,blanket,blizzard,blue,breakdance,broccoli,brother,bulldozer,bumblebee,cabinet,calculator,cantaloupe,captain,castle,caterpillar,caution,ceiling,chicken,chocolate,circle,classroom,computer,constellation,conundrum,cousin,crack,crash,crocodile,crunch,cucumber,dolphin,dragon,drawer,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,friend,grandfather,grandmother,hazard,hexagon,hurricane,icicle,jumprope,Jupiter,kangaroo,keyboard,knee,knight,knock,ladybug,laugh,library,lightning,macaroni,magic,Mercury,midnight,mirror,mountain,movie,music,natural,ocean,octagon,octopus,orange,ordinary,paradox,parallelogram,piano,pizza,playground,purple,puzzle,quickly,quiet,raspberry,rectangle,safety,sandwich,school,scientific,seesaw,shadow,shampoo,shoulder,solar system,sorry,spaghetti,special,splash,square,squirrel,stomach,sunrise,surprise,teacher,thunderstorm,tissue,toothbrush,tractor,trailer,triangle,tricycle,twilight,ultramarine,umbrella,uncle,vacuum,vegetable,violet,violin,volcano,watermelon,white,yellow,yogurt,zebra".replace(/, /g, ',').split(',')
     },
     {
       name: 'Days, Months, Numbers',
@@ -280,7 +280,7 @@
   //});
   
   // echo sorted list to console
-  //console.log(Array.prototype.sort.apply(lists[7].words, [function (a, b) {
+  //console.log(Array.prototype.sort.apply(lists[6].words, [function (a, b) {
     //return a.toLowerCase().localeCompare(b.toLowerCase());
   //}]).join(','));
   
@@ -482,29 +482,27 @@
   }
   
   function panelTopExpand(){
-    $('.panelTop').clearQueue().animate({bottom: '20%'}, function(){ $('.panelTop').addClass('expanded'); });
+    $('.panelTop').clearQueue().animate({bottom: '25%'}, function(){ $('.panelTop').addClass('expanded'); });
     
     $('.panelWord').clearQueue().animate({
-      top: '80%',
-      bottom: '0',
+      top: '75%',
+      bottom: '5%',
       'border-radius': '10px 10px 0 0'
-      //height: ($(document).height() * .2) + 'px'
     });
     
-    $('.panelBottom').clearQueue().animate({top: '100%'});
+    $('.panelBottom').clearQueue().animate({top: '95%'}).removeClass('expanded');
   }
   
   function panelBottomExpand(){
-    $('.panelBottom').clearQueue().animate({top: '20%'}, function(){ $('.panelBottom').addClass('expanded'); });
+    $('.panelBottom').clearQueue().animate({top: '25%'}, function(){ $('.panelBottom').addClass('expanded'); });
     
     $('.panelWord').clearQueue().animate({
-      bottom: '80%',
-      top: '0',
+      bottom: '75%',
+      top: '5%',
       'border-radius': '0 0 10px 10px'
-      //height: ($(document).height() * .2) + 'px'
     });
     
-    $('.panelTop').clearQueue().animate({bottom: '100%'});
+    $('.panelTop').clearQueue().animate({bottom: '95%'}).removeClass('expanded');
   }
   
   function panelRestore(){
@@ -513,11 +511,11 @@
       bottom: '15%',
       'border-radius': '10px'
       //height: '400px'
-    }, 200);
+    });
     
-    $('.panelTop').clearQueue().animate({'bottom': getPanelDistancePercentage() + '%'}, 200, function(){ $('.panelTop').removeClass('expanded'); });
+    $('.panelTop').clearQueue().animate({'bottom': getPanelDistancePercentage() + '%'}, function(){ $('.panelTop').removeClass('expanded'); });
     
-    $('.panelBottom').clearQueue().animate({'top': getPanelDistancePercentage() + '%'}, 200, function(){ $('.panelBottom').removeClass('expanded'); });
+    $('.panelBottom').clearQueue().animate({'top': getPanelDistancePercentage() + '%'}, function(){ $('.panelBottom').removeClass('expanded'); });
   }
   
   
