@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="styleFlat style3d">
 
 <head>
   <meta charset="utf-8" />
@@ -16,6 +16,12 @@
       font-family: 'Average Sans', sans-serif;
       font-size: 14px;
       overflow: hidden;
+    }
+    .styleFlat body {
+      background-color: #fff;
+    }
+    .style3d body {
+      background-color: #ddd;
     }
     .fontFamily-AverageSans {
       font-family: 'Average Sans', sans-serif;
@@ -41,11 +47,18 @@
       margin: auto;
       
       text-align: center;
+      cursor: pointer;
+      
     }
     .panelShadow {
       -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
       -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
       box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    }
+    .styleFlat .panelShadow {
+      -moz-box-shadow: none;
+      -webkit-box-shadow: none;
+      box-shadow: none;
     }
     .panelLabel {
       font-size: 30px;
@@ -62,7 +75,7 @@
       
       bottom: 80%;
       
-      width: 50%;
+      width: 90%;
       min-width: 200px;
       /* height: 20%; */
       
@@ -84,7 +97,7 @@
       
       top: 80%;
       
-      width: 50%;
+      width: 90%;
       min-width: 200px;
       /* height: 20%; */
       
@@ -97,27 +110,39 @@
       
       overflow: hidden;
     }
+    .styleMono .panelTop,
+    .styleMono .panelBottom {
+      background-color: #ccc;
+      border-color: #aaa;
+      color: #aaa;
+    }
     .panelBottom .panelLabel {
       top: 0;
     }
     .panelWord {
       opacity: 0;
       
-      top: 25%;
-      bottom: 25%;
+      top: 15%;
+      bottom: 15%;
       
-      width: 75%;
-      height: 400px;
-      max-height: 50%;
+      width: 90%;
+      /* height: 400px; */
+      max-height: 70%;
       line-height: 350px;
       font-size: 200px;
       
       background-color: #fff;
-      color: #bbb;
+      color: #ccc;
       border: 2px solid #bbb;
       border-radius: 10px;
-      
-      cursor: pointer;
+    }
+    .styleFlat .panelWord,
+    .style3d .panelWord {
+      border: none;
+      background-color: transparent;
+      -moz-box-shadow: none;
+      -webkit-box-shadow: none;
+      box-shadow: none;
     }
     .word {
       position: relative;
@@ -126,12 +151,36 @@
       
       letter-spacing: -.05em;
       white-space: nowrap;
+      
+      color: #000;
+    }
+    .loading .word {
+      color: #ccc;
+    }
+    .style3d .word {
+      /* 3d text with css3 shadows, from http://www.cssrex.com/tips-tricks/how-to-create-3d-text-using-css3 */
+      color:#FFFFFF;
+      text-shadow: 0 1px 0 #ccc,
+        0 2px 0 #c9c9c9,
+        0 3px 0 #bbb,
+        0 4px 0 #b9b9b9,
+        0 5px 0 #aaa,
+        0 6px 1px rgba(0,0,0,.1),
+        0 0 5px rgba(0,0,0,.1),
+        0 1px 3px rgba(0,0,0,.3),
+        0 3px 5px rgba(0,0,0,.2),
+        0 5px 10px rgba(0,0,0,.25),
+        0 10px 10px rgba(0,0,0,.2),
+        0 20px 20px rgba(0,0,0,.15);      
+    }
+    .inHistory .word {
+      color: #ccc;
     }
     .panelWordDetails {
-      font-size: 20px;
-      line-height: 40px;
+      font-size: 16px;
+      line-height: 20px;
       text-align: center;
-      margin: 0 auto;
+      margin: 2px auto;
       position: absolute;
       width: 100%;
     
@@ -165,9 +214,9 @@
 
 <div class="background"></div>
 
-<div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel">help</div></div>
+<div class="panel panelWord panelShadow" unselectable="on"><div class="panelLabel panelWordDetails"></div><div class="word">sightwords</div></div>
 
-<div class="panel panelWord panelShadow" unselectable="on"><div class="word">sightwords</div><div class="panelLabel panelWordDetails"></div></div>
+<div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel">help</div></div>
 
 <div class="panel panelBottom panelShadow" unselectable="on"><div class="panelLabel">settings</div></div>
 
@@ -216,7 +265,7 @@
     },
     {
       name: 'Advanced',
-      words: "alabaster,asteroid,basketball,beautiful,blanket,blizzard,breakdance,broccoli,calculator,cantaloupe,castle,caution,computer,constellation,conundrum,cucumber,dolphin,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,hazard,hexagon,hurricane,jumprope,Jupiter,keyboard,knight,ladybug,lightning,macaroni,Mercury,midnight,mirror,mountain,music,ocean,octagon,orange,ordinary,parallelogram,piano,pizza,purple,shoulder,solar system,spaghetti,squirrel,sunrise,thunderstorm,toothbrush,twilight,ultramarine,violet,violin,volcano,watermelon,yellow,zebra".split(',')
+      words: "alabaster,alligator,asteroid,basketball,beautiful,blanket,blizzard,breakdance,broccoli,cabinet,calculator,cantaloupe,castle,caution,computer,constellation,conundrum,crocodile,cucumber,dolphin,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,hazard,hexagon,hurricane,jumprope,Jupiter,kangaroo,keyboard,knight,ladybug,lightning,macaroni,Mercury,midnight,mirror,mountain,music,ocean,octagon,octopus,orange,ordinary,parallelogram,piano,pizza,purple,shoulder,solar system,spaghetti,squirrel,sunrise,thunderstorm,toothbrush,twilight,ultramarine,vacuum,violet,violin,volcano,watermelon,yellow,zebra".split(',')
     },
     {
       name: 'Days, Months, Numbers',
@@ -225,10 +274,10 @@
   ];
   
   // combine all lists
-  lists.unshift({
-    name: 'all',
-    words: [].concat.apply([], $.map(lists, function(list){ return list.words; }))
-  });
+  //lists.unshift({
+    //name: 'all',
+    //words: [].concat.apply([], $.map(lists, function(list){ return list.words; }))
+  //});
   
   // echo sorted list to console
   //console.log(Array.prototype.sort.apply(lists[7].words, [function (a, b) {
@@ -243,7 +292,8 @@
   var historyLimit;
   var historyPosition;
   
-  listSelect([7,8]);
+  listSelect([6,7]);
+  //listSelect(); // select all lists
   
   var maxFontSize = 200; // starting value, changed on window resize
   
@@ -253,16 +303,6 @@
       fontClass: 'fontFamily-AverageSans',
       lineHeightFactor: .875
     },
-/*    
-    {
-      'font-family': 'Sorts Mill Goudy',
-      lineHeightFactor: 1
-    },
-    {
-      'font-family': 'Libre Baskerville',
-      lineHeightFactor: 1
-    },
-*/
     {
       fontClass: 'fontFamily-EBGaramond',
       lineHeightFactor: .9
@@ -275,27 +315,43 @@
 
   var sizeWatch = [];
   
+
+
+
+
+
+
+
   
   
 
   function listSelect(listIndexes){
+    if (!listIndexes){
+      listIndexes = [];
+      for (var i = 0; i < lists.length; i++){
+        listIndexes.push(i);
+      }
+    }
     activeListIndexes = listIndexes;
     activeLists = [];
     listTotalLength = 0;
     _.each(activeListIndexes, function(index){ activeLists.push(lists[index]); listTotalLength += lists[index].words.length; });
-    //console.dir(activeLists);
     
     history = [];
-    historyLimit = Math.floor(listTotalLength / 2); // how many unique words before allowing a repeat; if this is >= list length, sequence will be the same when looping
+    //historyLimit = Math.floor(listTotalLength / 2); // how many unique words before allowing a repeat; if this is >= list length, sequence will be the same when looping
+    historyLimit = listTotalLength; // set limit to list length to ensure no repeats until all words are traversed - HOWEVER, upon looping, all words will be in exactly the same order
     historyPosition = 0;
   }
 
   // randomly get word from word list
   function getWord(){
     if (historyPosition > 0){
-      //console.log(historyPosition + ' (' + history.join(',') + ')');
+      $('.panelWord').addClass('inHistory');
       historyPosition--;
       return activeLists[history[historyPosition][0]].words[history[historyPosition][1]];
+    }
+    else {
+      $('.panelWord').removeClass('inHistory');
     }
     
     var listIndex, wordIndex;
@@ -304,18 +360,17 @@
       listIndex = Math.floor(Math.random() * (activeLists.length));
       wordIndex = Math.floor(Math.random() * (activeLists[listIndex].words.length));
       i++;
-    //} while ($.inArray(index, history) != -1);
     } while (_.find(history, function(item){ return item[0] == listIndex && item[1] == wordIndex; }));
     
-    //console.log(i + ': ' + index + ' (' + history.join(',') + ')');
-    
-    // remove oldest index from history
+    // remove oldest index from end of history
     if (history.length >= Math.min(listTotalLength - 1, historyLimit)){
       history.pop(1);
     }
     
+    // add this index to beginning of history
     history.unshift([listIndex, wordIndex]);
     
+    // show word list name
     $('.panelWordDetails').text(activeLists[listIndex].name);
     
     return activeLists[listIndex].words[wordIndex];
@@ -332,23 +387,15 @@
   
   // word switch procedure
   function nextWord(){
-    $('.panelWord')
+    $('.word')
       .clearQueue()
-      .animate({color: '#fff'}, 200,
+      .fadeTo(200, 0,
         function(){
           $('.word').text(getWord())
           fitWord($('.word'));
+          $('body').removeClass('loading');
         })
-      .animate({color: '#000'}, 200);
-      
-    if (historyPosition > 0){
-      $('.panelWord')
-        .animate({'border-color': '#d88', 'border-left-width': '10px'});
-    }
-    else {
-      $('.panelWord')
-        .animate({'border-color': '#bbb', 'border-left-width': '2px'});
-    }
+      .fadeTo(200, 1);
   }
   
   // go back in history
@@ -392,9 +439,12 @@
     });
   }
   
+  // custom element resize handler
+  // checks width and height of el every interval ms, and executes action if either dimension has changed
   function onResize(el, action, interval){
     interval = interval || 25;
   
+    // add unique tracking id to this element
     el.attr('sizeWatchId', sizeWatch.length);
     
     var watch = {
@@ -402,12 +452,13 @@
       width: el.width(),
       height: el.height(),
       action: action,
+      
       timeoutId: setInterval(function(){
-        //console.log(el.attr('sizeWatchId'));
         var id = el.attr('sizeWatchId');
         if (sizeWatch[id]){
           var newWidth = el.width(), newHeight = el.height();
           
+          // if current dimensions don't match most recently saved dimensions, save new dimensions and execute action
           if (newWidth != sizeWatch[id].width || newHeight != sizeWatch[id].height){
             sizeWatch[id].width = newWidth;
             sizeWatch[id].height = newHeight;
@@ -417,9 +468,11 @@
       }, interval)
     };
     
+    // save this object for later retrieval
     sizeWatch.push(watch);
   }
   
+  // stop custom resize handler for passed element
   function clearResize(el){
     var id = el.attr('sizeWatchId');
     
@@ -429,22 +482,37 @@
   }
   
   function panelTopExpand(){
-    $('.panelTop').clearQueue().animate({bottom: '10%'}, function(){ $('.panelTop').addClass('expanded'); });
+    $('.panelTop').clearQueue().animate({bottom: '20%'}, function(){ $('.panelTop').addClass('expanded'); });
     
     $('.panelWord').clearQueue().animate({
       top: '80%',
-      bottom: '-15px',
-      height: ($(document).height() * .2) + 'px'
+      bottom: '0',
+      'border-radius': '10px 10px 0 0'
+      //height: ($(document).height() * .2) + 'px'
     });
     
     $('.panelBottom').clearQueue().animate({top: '100%'});
   }
   
+  function panelBottomExpand(){
+    $('.panelBottom').clearQueue().animate({top: '20%'}, function(){ $('.panelBottom').addClass('expanded'); });
+    
+    $('.panelWord').clearQueue().animate({
+      bottom: '80%',
+      top: '0',
+      'border-radius': '0 0 10px 10px'
+      //height: ($(document).height() * .2) + 'px'
+    });
+    
+    $('.panelTop').clearQueue().animate({bottom: '100%'});
+  }
+  
   function panelRestore(){
     $('.panelWord').clearQueue().animate({
-      top: '25%',
-      bottom: '25%',
-      height: '400px'
+      top: '15%',
+      bottom: '15%',
+      'border-radius': '10px'
+      //height: '400px'
     }, 200);
     
     $('.panelTop').clearQueue().animate({'bottom': getPanelDistancePercentage() + '%'}, 200, function(){ $('.panelTop').removeClass('expanded'); });
@@ -453,6 +521,13 @@
   }
   
   
+
+
+
+
+
+
+
   touchClick('.panelWord, .background', function(){
     nextWord();
   });
@@ -466,16 +541,31 @@
     }
   });
   
+  touchClick('.panelBottom', function(){
+    if (!$('.panelBottom').hasClass('expanded')){ // top panel not currently expanded
+      panelBottomExpand();
+    }
+    else { // top panel already expanded, so hide it and restore normal view
+      panelRestore();
+    }
+  });
+  
   // on window resize, .panelWord is resized (according to css rules)
   // adjust font size and line-height accordingly
   $(window).resize(function(){
-    fitWord($('.word'));
-    
     // resize shrunken edge panels
-    if (!$('body').hasClass('loading')){
+    if (
+      !$('body').hasClass('loading')
+      &&
+      !$('.panelTop').hasClass('expanded')
+      &&
+      !$('.panelBottom').hasClass('expanded')
+    ){
       $('.panelTop').clearQueue().animate({'bottom': getPanelDistancePercentage() + '%'});
       $('.panelBottom').clearQueue().animate({'top': getPanelDistancePercentage() + '%'});
     }
+    
+    fitWord($('.word'));
   });
   
   // no div resize support in jQuery,
@@ -517,11 +607,11 @@
         break;
         
       case keys.up:
-        if (!$('.panelTop').hasClass('expanded')){
-          panelTopExpand();
+        if ($('.panelBottom').hasClass('expanded')){
+          panelRestore();
         }
         else {
-          panelRestore();
+          panelTopExpand();
         }
         break;
         
@@ -529,12 +619,19 @@
         if ($('.panelTop').hasClass('expanded')){
           panelRestore();
         }
+        else {
+          panelBottomExpand();
+        }
         break;
     }
   });
   
 
   
+
+
+
+
   
   
   // trigger resize handler once on page load
@@ -551,16 +648,18 @@
   $('.panelWord')
     .removeClass(function(index, css){ return false; })
     .addClass(fonts[fontIndex].fontClass)
-    .fadeTo(1000, 1)
-    .delay(1000)
-    .animate({color: '#fff'},
-      function(){
-        $('.word').text('touch to begin');
-        fitWord($('.word'));
-      })
-    .animate({color: '#bbb'});
+    .fadeTo(1000, 1, function(){
+      $('.word')
+        .delay(1000)
+        .fadeTo(400, 0,
+          function(){
+            $('.word').text('touch to begin');
+            fitWord($('.word'));
+          })
+        .fadeTo(400, 1);
+      });
   
-  $('.panelTop').delay(750).fadeTo(200, 1).delay(500).animate({'bottom': getPanelDistancePercentage() + '%'}, function(){ $('body').removeClass('loading'); });
+  $('.panelTop').delay(750).fadeTo(200, 1).delay(500).animate({'bottom': getPanelDistancePercentage() + '%'}); //, function(){ $('body').removeClass('loading'); });
   $('.panelBottom').delay(1000).fadeTo(200, 1).delay(500).animate({'top': getPanelDistancePercentage() + '%'});
 
   
