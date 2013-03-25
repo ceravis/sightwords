@@ -7,7 +7,6 @@
   
   <title>sightwords</title>
 
-  <!--<link href="http://fonts.googleapis.com/css?family=Average+Sans|Sorts+Mill+Goudy:400,400italic|Libre+Baskerville:400,700,400italic|EB+Garamond" rel="stylesheet" type="text/css">-->
   <link href="http://fonts.googleapis.com/css?family=Average+Sans|EB+Garamond" rel="stylesheet" type="text/css">
   
   <style>
@@ -73,7 +72,7 @@
     .panelTop {
       opacity: 0;
       
-      bottom: 80%;
+      bottom: 85%;
       
       width: 90%;
       min-width: 200px;
@@ -95,7 +94,7 @@
     .panelBottom {
       opacity: 0;
       
-      top: 80%;
+      top: 85%;
       
       width: 90%;
       min-width: 200px;
@@ -185,7 +184,7 @@
       width: 100%;
     
       font-family: 'Average Sans', sans-serif;
-      color: #ccc;
+      color: #bbb;
     }
     .fontStyle-capitalize {
       text-transform: capitalize;
@@ -214,7 +213,7 @@
 
 <div class="background"></div>
 
-<div class="panel panelWord panelShadow" unselectable="on"><div class="panelLabel panelWordDetails"></div><div class="word">sightwords</div></div>
+<div class="panel panelWord panelShadow" unselectable="on"><div class="panelLabel panelWordDetails">helping kids learn to read</div><div class="word">sightwords</div></div>
 
 <div class="panel panelTop panelShadow" unselectable="on"><div class="panelLabel"><!-- word details --></div></div>
 
@@ -265,11 +264,19 @@
     },
     {
       name: 'Advanced',
-      words: "alabaster,alligator,animal,asteroid,aunt,backhoe,bandage,basketball,beautiful,bicycle,blanket,blizzard,blue,breakdance,broccoli,brother,bulldozer,bumblebee,cabinet,calculator,cantaloupe,captain,castle,caterpillar,caution,ceiling,chicken,chocolate,circle,classroom,computer,constellation,conundrum,cousin,crack,crash,crocodile,crunch,cucumber,dolphin,dragon,drawer,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,friend,grandfather,grandmother,hazard,hexagon,hurricane,icicle,jumprope,Jupiter,kangaroo,keyboard,knee,knight,knock,ladybug,laugh,library,lightning,macaroni,magic,Mercury,midnight,mirror,mountain,movie,music,natural,ocean,octagon,octopus,orange,ordinary,paradox,parallelogram,piano,pizza,playground,purple,puzzle,quickly,quiet,raspberry,rectangle,safety,sandwich,school,scientific,seesaw,shadow,shampoo,shoulder,solar system,sorry,spaghetti,special,splash,square,squirrel,stomach,sunrise,surprise,teacher,thunderstorm,tissue,toothbrush,tractor,trailer,triangle,tricycle,twilight,ultramarine,umbrella,uncle,vacuum,vegetable,violet,violin,volcano,watermelon,white,yellow,yogurt,zebra".replace(/, /g, ',').split(',')
+      words: "alabaster,alligator,animal,asteroid,aunt,backhoe,bandage,basketball,beautiful,bicycle,blanket,blizzard,blue,breakdance,broccoli,brother,bulldozer,bumblebee,cabinet,calculator,cantaloupe,captain,castle,caterpillar,caution,ceiling,chicken,chocolate,circle,classroom,computer,constellation,conundrum,cousin,crack,crash,crocodile,crunch,cucumber,dolphin,dragon,drawer,eagle,earthquake,earthworm,elbow,elephant,engine,evergreen,fountain,fragile,friend,grandfather,grandmother,hazard,hexagon,hurricane,icicle,jumprope,Jupiter,kangaroo,keyboard,knee,knight,knock,ladybug,laugh,library,lightning,listen,macaroni,magic,Mercury,midnight,mirror,mountain,movie,music,natural,ocean,octagon,octopus,orange,ordinary,paradox,parallelogram,piano,pizza,playground,purple,puzzle,quickly,quiet,raspberry,rectangle,safety,sandwich,school,scientific,seesaw,shadow,shampoo,shoulder,solar system,sorry,spaghetti,special,splash,square,squirrel,stomach,sunrise,surprise,teacher,thunderstorm,tissue,toothbrush,tractor,trailer,triangle,tricycle,twilight,ultramarine,umbrella,uncle,vacuum,vegetable,violet,violin,volcano,watch,watermelon,white,yellow,yogurt,zebra".replace(/, /g, ',').split(',')
     },
     {
       name: 'Days, Months, Numbers',
       words: "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,January,February,March,April,May,June,July,August,September,October,November,December,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty".split(',')
+    },
+    {
+      name: '',
+      words: "classified,missive,coverup,resulting,unintentional,collateral,consequences,mass,extinction,imminent".split(',')
+    },
+    {
+      name: '',
+      words: "await,further".split(',')
     }
   ];
   
@@ -293,7 +300,10 @@
   var historyPosition;
   
   listSelect([6,7]);
+  //listSelect([8]);
   //listSelect(); // select all lists
+  
+  var wordCount = 0;
   
   var maxFontSize = 200; // starting value, changed on window resize
   
@@ -352,6 +362,14 @@
     }
     else {
       $('.panelWord').removeClass('inHistory');
+    }
+
+    wordCount++;
+    if (wordCount == 24){
+      //listSelect([9]);
+    }
+    else if (wordCount == 6){
+      //listSelect([8]);
     }
     
     var listIndex, wordIndex;
@@ -567,7 +585,7 @@
   });
   
   // no div resize support in jQuery,
-  // and ba-resize plugin doesn't seem to work...
+  //   and ba-resize plugin doesn't seem to work...
   //$('.panelWord').resize(function(){
     //console.log('panelWord resize');
     //fitWord($(this));
@@ -648,7 +666,7 @@
     .addClass(fonts[fontIndex].fontClass)
     .fadeTo(1000, 1, function(){
       $('.word')
-        .delay(1000)
+        .delay(2000)
         .fadeTo(400, 0,
           function(){
             $('.word').text('touch to begin');
