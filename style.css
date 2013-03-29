@@ -1,0 +1,196 @@
+body {
+  background-color: #eee;
+  font-family: 'Average Sans', sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+.styleFlat body {
+  background-color: #fff;
+}
+.style3d body {
+  background-color: #ddd;
+}
+.fontFamily-AverageSans {
+  font-family: 'Average Sans', sans-serif;
+}
+.fontFamily-EBGaramond {
+  font-family: 'EB Garamond', serif;
+}
+.background {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+.panel {
+  /* these 6 properties center panel in parent vertically and horizontally */
+  /* change TBLR values to offset from those edges */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  
+  text-align: center;
+  cursor: pointer;
+  
+}
+.panelShadow {
+  -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+.styleFlat .panelShadow {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.panelLabel {
+  font-size: 30px;
+  line-height: 50px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 auto;
+  position: absolute;
+  width: 100%;
+}
+.panelTop {
+  opacity: 0;
+  
+  bottom: 85%;
+  
+  width: 90%;
+  min-width: 200px;
+  /* height: 20%; */
+  
+  background-color: #ed9;
+  border-width: 0 2px 2px;
+  border-style: solid;
+  border-color: #cb7;
+  border-radius: 0 0 5px 5px;
+  color: #cb7;
+  
+  overflow: hidden;
+}
+.panelTop .panelLabel,
+.panelWord .panelLabel {
+  bottom: 0;
+}
+.panelBottom {
+  opacity: 0;
+  
+  top: 85%;
+  
+  width: 90%;
+  min-width: 200px;
+  /* height: 20%; */
+  
+  background-color: #9ac;
+  border-width: 2px 2px 0;
+  border-style: solid;
+  border-color: #78a;
+  border-radius: 5px 5px 0 0;
+  color: #78a;
+  
+  overflow: hidden;
+}
+.styleMono .panelTop,
+.styleMono .panelBottom {
+  background-color: #ccc;
+  border-color: #aaa;
+  color: #aaa;
+}
+.panelBottom .panelLabel {
+  top: 0;
+}
+.panelWord {
+  opacity: 0;
+  
+  top: 15%;
+  bottom: 15%;
+  
+  width: 90%;
+  /* height: 400px; */
+  max-height: 70%;
+  line-height: 350px;
+  font-size: 200px;
+  
+  background-color: #fff;
+  color: #ccc;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+}
+.styleFlat .panelWord,
+.style3d .panelWord {
+  border: none;
+  background-color: transparent;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.word {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  
+  letter-spacing: -.05em;
+  white-space: nowrap;
+  
+  color: #000;
+}
+.loading .word {
+  color: #ccc;
+}
+.style3d .word {
+  /* 3d text with css3 shadows, from http://www.cssrex.com/tips-tricks/how-to-create-3d-text-using-css3 */
+  color:#FFFFFF;
+  text-shadow: 0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);      
+}
+.inHistory .word {
+  color: #ccc;
+}
+.panelWordDetails {
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  margin: 2px auto;
+  position: absolute;
+  width: 100%;
+
+  font-family: 'Average Sans', sans-serif;
+  color: #bbb;
+}
+.fontStyle-capitalize {
+  text-transform: capitalize;
+}
+.fontStyle-uppercase {
+  text-transform: uppercase;
+}
+.bold,
+.fontStyle-bold {
+  font-weight: bold;
+}
+[unselectable="on"], a {
+  /* prevent text selection in most browsers except IE 6-9 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;      
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* prevent android and iphone browsers highlighting elements on touch */
+}
